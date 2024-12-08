@@ -1,0 +1,60 @@
+main();
+
+function main() {
+  const canvas = document.querySelector("#glcanvas");
+  // Initialize the GL context
+  // const gl = canvas.getContext("webgl");
+  const ctx = canvas.getContext('2d');
+  // Only continue if WebGL is available and working
+  if (ctx === null) {
+    alert(
+      "Unable to initialize WebGL. Your browser or machine may not support it."
+    );
+    return;
+  }
+
+  // Set clear color to red, fully opaque
+  ctx.fillStyle = '#ed0000';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Set white color for the middle two parts
+  ctx.fillStyle = '#ffffff';
+  for(let i = 0; i < 2; i++) {
+    ctx.fillRect(0,canvas.height/5+canvas.height/5*2*i,canvas.width, canvas.height/5);
+  }
+
+  // Set blue color for the triangle part
+  ctx.fillStyle = '#0044ff';
+  ctx.beginPath();
+  ctx.moveTo(0, 0); // 顶点
+  ctx.lineTo(canvas.height / 2*(Math.sqrt(3)) , canvas.height / 2); //Mid point
+  ctx.lineTo(0, canvas.height); // left-bottom point
+  ctx.closePath(); // 闭合路径
+  ctx.fill();
+
+  // Draw star
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  let center_X = canvas.height / 6*(Math.sqrt(3));
+  let center_Y = canvas.height / 2;
+  let radius = canvas.height/6;
+  let sin72 = Math.sin(2*Math.PI/5);
+  let cos72 = Math.cos(2*Math.PI/5);
+  let sin36 = Math.sin(Math.PI/5);
+  let cos36 = Math.cos(Math.PI/5);
+  let sin18 = Math.sin(Math.PI/10);
+  let cos18 = Math.cos(Math.PI/10);
+  let radius_2 = radius*sin18/cos36;
+  ctx.moveTo(center_X, (canvas.height / 2)-radius); // point 1
+  ctx.lineTo(center_X + radius_2*sin36, center_Y - radius*sin18); // point 2
+  ctx.lineTo(center_X + radius*sin72, center_Y - radius*cos72); // point 3
+  ctx.lineTo(center_X + radius_2*cos18, center_Y + radius_2*sin18); // point 4
+  ctx.lineTo(center_X + radius*sin36, center_Y + radius*cos36); // point 5
+  ctx.lineTo(center_X, center_Y + radius_2); // point 6
+  ctx.lineTo(center_X - radius*sin36, center_Y + radius*cos36); // point 7
+  ctx.lineTo(center_X - radius_2*cos18, center_Y + radius_2*sin18); // point 8
+  ctx.lineTo(center_X - radius*sin72, center_Y - radius*cos72); // point 9
+  ctx.lineTo(center_X - radius_2*sin36, center_Y - radius*sin18); // point 10
+  ctx.closePath(); // 闭合路径
+  ctx.fill();
+}
